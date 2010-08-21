@@ -78,5 +78,5 @@ standard port
     
 
 To change any of these defaults, create a python module and point to it in
-a environment variable called, "FEEDSERVICE_SETTINGS"
+a environment variable called, `FEEDSERVICE_SETTINGS`
 
