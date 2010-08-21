@@ -3,18 +3,25 @@ feedservice
 feedservice provides a little feed caching service to ensure that external
 feeds will be fetched in a timely manner.
 
-feedservice uses MongoDB and have two components, a web service and a 
+feedservice uses MongoDB_ and has two components, a web service and a 
 janitorial process.
+
+feedservice uses Mark Pilgrim's excellent feedparser_ module to ensure that
+feeds are always readible and formatted in a well documented format.
+
+.. _MongoDB: http://www.mongodb.org/
+.. _feedparser: http://www.feedparser.org/
 
 
 Web Service
 ------------
-The `feedservice.webservice.app` is a standard WSGI app built using Flask.
+The `feedservice.webservice.app` is a standard WSGI app built using Flask_.
 You can deploy it using gunicorn_::
 
     gunicorn feedservice.webserice:app
 
 .. _gunicorn: http://gunicorn.org/
+.. _Flask: http://flask.pocoo.org/
 
 The feedservice URL is at `/feed`.  The URL has the following parameters
 
@@ -39,9 +46,9 @@ three keys::
        The date and time in UTC when the feed was last fetched
 
     result
-       The result of feedparser_ ran on the feed
+       The result of feedparser ran on the feed
 
-.. _feedparser: http://www.feedparser.org/
+
 
 
 Janitor Process
