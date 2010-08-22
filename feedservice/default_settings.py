@@ -4,3 +4,6 @@ MONGO_COLLECTION = "feedservice"
 
 OLDAGE = 180 # Refresh feeds every 3 minutes
 
+
+from feedservice.backends.mongodb import FeedDB
+BACKEND=FeedDB

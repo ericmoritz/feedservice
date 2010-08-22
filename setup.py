@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from distutils.core import setup
+from setuptools import setup, find_packages
 
 setup(name='feedservice',
       version='0.1',
@@ -11,5 +11,5 @@ feeds will be fetched in a timely manner.""",
       author_email='eric@themoritzfamily.com',
       url='',
       scripts=['bin/feedjanitor'],
-      packages=['feedservice'],
+      packages=find_packages(),
      )

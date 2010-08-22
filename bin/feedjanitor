@@ -1,7 +1,6 @@
 #!/usr/bin/env python
-from feedservice.webservice import feeddb, app
+from feedservice.webservice import feeddb
 import time
-from datetime import datetime
 from datetime import timedelta
 from dateutil import tz
 import logging
@@ -9,36 +8,10 @@ import logging
 logger = logging.getLogger("feedservice.feedjanitor")
 logging.basicConfig(level=logging.INFO)
 
-def update_stale_feeds():
-    d = timedelta(seconds=app.config['OLDAGE'])
-    old_age = datetime.now(tz.tzutc()) - d
-
-    c = feeddb.coll.find({'timestamp': {'$lt': old_age}})
-
-    count = c.count()
-    logger.info("Found %s feeds older than %s" % (count, old_age))
-
-    for doc in c:
-        etag = doc['result'].get('etag')
-        logger.info("Updating %s" % doc['feedurl'])
-
-        doc = feeddb.refresh(doc['feedurl'], etag=etag)
-
-        # If the HTTP from the refresh is not 200, update the timestamp
-        # so we won't fetch it again for another period
-        status = doc['result']['status'] 
-        if status != 200:
-            logger.info("Feed status not 200, %s," % status +
-                             " delaying next update")
-
-            spec = {'feedurl': doc['feedurl']}
-            update = {'timestamp': {'$set': datetime.now(tz.tzutc())}}
-            feeddb.coll.update(spec, update)
-
 def main():
     logger.info("Starting up...")
     while True:
-        update_stale_feeds()
+        feeddb.update_stale_feeds()
         logger.info("Sleeping 10s")
         time.sleep(10)
 
